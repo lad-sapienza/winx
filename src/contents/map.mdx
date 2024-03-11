@@ -1,0 +1,32 @@
+---
+title: "MapComp component"
+date: "2023-10-01"
+slug: "modulo-mappa"
+description: "An easy to use component for building powerful and fully customizable maps"
+menu_position: 1
+---
+
+
+# MapComp: Map Component
+
+import { MapComp, RasterLayer, VectorLayer } from "../modules/myMap/myMap.js"
+
+<div className="row">
+  <div className="col-sm-12">
+  <MapComp
+  height="600px"
+  baseLayers="OSM,EsriSatellite">
+    <VectorLayer 
+      name="W_luogo_di_interesse"
+      fitToContent={true}
+      checked={true}
+      dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse"
+      dToken="bdQC-yRoiG5KA04L8Op7DF8Jl9kzZ2t7"
+      popupTemplate={
+        (attribs) => { return `<p><strong>${attribs.tipologia}</strong>`; }
+      }
+      geoField="coordinate"
+    />
+  </MapComp>
+  </div>
+</div>

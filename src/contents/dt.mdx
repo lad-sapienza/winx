@@ -1,0 +1,158 @@
+---
+title: "Modulo Datatable"
+date: "2023-10-01"
+slug: "modulo-datatable"
+description: ""
+menu_position: 3
+---
+
+import DataTb from "../modules/datatb.js"
+
+`<DataTb />` component can be used in MDX pages to display a dynamic data table, which are fully customisable.
+
+## Parameters
+
+- `path2cvs` (**required** if `dTable` id not provided): relative or full path to a csv file to use for the data Table creation
+- `dEndPoint` (**required** is `path2csv` or `dTable` are not defined): full path to a Directus endpoint, complete with table name
+- `dToken` (**required** if `dEndPoint` is provided): Directus access token, required if table is not public. If not proved GATSBY_DIRECTUS_TOKEN environment variable will be used
+- `dTable` (**required**, if `path2csv` or `dEndPoint` are not provided): name of the Directus table containing geographical data
+- `columns` (**required**): list of database columns and fields
+
+## Examples
+
+### Directus data source
+
+<div className="row">
+  <div className="col-sm-4">
+    ```
+    <DataTb
+      striped={true}
+      dEndPoint="https://landscapearchaeology.eu/db/items/toponimi?limit=1000&offset=0"
+      dToken="sxE2XHdJMWJiymA9w2QJFGJWG9AAnq6E"
+      columns={[
+        {
+          name: "ID luogo",
+          selector: (item, i) => item.id,
+          sortable: true,
+        },
+        {
+          name: "Toponimo",
+          selector: (item, i) => item.toponimi,
+          sortable: true,
+          cell: item => (
+            <a href={`../record/?dEndPoint=${encodeURIComponent(`https://landscapearchaeology.eu/db/items/toponimi`)}&tb=toponimi&token=sxE2XHdJMWJiymA9w2QJFGJWG9AAnq6E&id=${item.id}`}>
+              {item.toponimo}
+            </a>
+          ),
+        },
+        {
+          name: "Provincia",
+          selector: (item, i) => item.provincia,
+          sortable: true,
+        },
+        {
+          name: "Comune",
+          selector: (item, i) => item.comune,
+          sortable: true,
+        },
+      ]}
+    />
+    ```
+  </div>
+  <div className="col-sm-8">
+    <DataTb
+      striped={true}
+      dEndPoint="https://landscapearchaeology.eu/db/items/toponimi?limit=1000&offset=0"
+      dToken="sxE2XHdJMWJiymA9w2QJFGJWG9AAnq6E"
+      columns={[
+        {
+          name: "ID luogo",
+          selector: (item, i) => item.id,
+          sortable: true,
+        },
+        {
+          name: "Toponimo",
+          selector: (item, i) => item.toponimi,
+          sortable: true,
+          cell: item => (
+            <a href={`../record/?dEndPoint=${encodeURIComponent(`https://landscapearchaeology.eu/db/items/toponimi`)}&tb=toponimi&token=sxE2XHdJMWJiymA9w2QJFGJWG9AAnq6E&id=${item.id}`}>
+              {item.toponimo}
+            </a>
+          ),
+        },
+        {
+          name: "Provincia",
+          selector: (item, i) => item.provincia,
+          sortable: true,
+        },
+        {
+          name: "Comune",
+          selector: (item, i) => item.comune,
+          sortable: true,
+        },
+      ]}
+    />
+  </div>
+</div>
+
+### Example with CSV data source
+
+<div className="row">
+  <div className="col-sm-4">
+```
+<DataTb
+  path2csv="../data/UT_toponimi.csv"
+  columns={[
+    {
+      name: "ID luogo",
+      selector: row => row.id,
+      sortable: true,
+    },
+    {
+      name: "Toponimo",
+      selector: row => row.toponimo,
+      sortable: true,
+    },
+    {
+      name: "Provincia",
+      selector: row => row.provincia,
+      sortable: true,
+    },
+    {
+      name: "Comune",
+      selector: row => row.comune,
+      sortable: true,
+    },
+  ]}
+/>
+```
+  </div>
+  <div className="col-sm-8">
+
+<DataTb
+  path2csv="../data/UT_toponimi.csv"
+  columns={[
+    {
+      name: "ID luogo",
+      selector: row => row.id,
+      sortable: true,
+    },
+    {
+      name: "Toponimo",
+      selector: row => row.toponimo,
+      sortable: true,
+    },
+    {
+      name: "Provincia",
+      selector: row => row.provincia,
+      sortable: true,
+    },
+    {
+      name: "Comune",
+      selector: row => row.comune,
+      sortable: true,
+    },
+  ]}
+/>
+  </div>
+</div>

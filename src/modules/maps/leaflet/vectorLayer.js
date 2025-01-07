@@ -83,8 +83,7 @@ VectorLayer.propTypes = {
    */
   name: PropTypes.string.isRequired,
   /**
-   * A string containing the HTML to render in the popup. Variable properties can be used using ${field_name} syntax
-   * Optional, default: null
+   * The template for the popup content. It can be either a string (Variable properties can be used using ${field_name} syntax) or a function receving as parameters the properties of the clicked feature.
    */
   popupTemplate: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /**

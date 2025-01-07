@@ -6,14 +6,16 @@ description: ""
 menu_position: 2
 ---
 
-import DataTb from "../modules/datatb.js"
+import { DataTb } from "../../modules/scms"
 
 ## Le donne
 
   <div className="col-sm-12">
     <DataTb
       striped={true}
-      dTable="w_persona"
+      source={{
+        dTable: "w_persona"
+      }}
       columns={[
         {
           name: "Nome",

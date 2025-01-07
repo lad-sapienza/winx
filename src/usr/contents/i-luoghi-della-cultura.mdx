@@ -6,17 +6,23 @@ description: "Siti archeologici noti dalle fonti"
 menu_position: 1
 ---
 
-import { MapComp, RasterLayer, VectorLayer } from "../modules/myMap/myMap.js"
+import { MapLeaflet, RasterLayer, VectorLayer } from "../../modules/scms.js"
+
 import { Link } from "gatsby"
 
 <div>
-    <MapComp
-      baseLayers="OSM,EsriSatellite"
+    <MapLeaflet
+      baseLayers={ ["OSM","EsriSatellite"] }
       fullScreen={true}
     >
       <VectorLayer 
         name="Sites"
-        dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse?fields=*,personalita_associate_al_monumento.*"
+        source={{
+          dTable: "w_luogo_di_interesse",
+          dQueryString: "fields=*,personalita_associate_al_monumento.*",
+          geoField: "coordinate"
+
+        }}
         fitToContent={true}
         checked={true}
         popupTemplate={(attribs) => `
@@ -29,18 +35,24 @@ import { Link } from "gatsby"
             }</p>
         `}
         pointToLayer={(feature, latlng) => {
-            // Ottieni il numero di persone associate
-            const count = feature.properties.personalita_associate_al_monumento.length;
-
             // Crea un marker personalizzato con un cerchio e il numero
             const countIcon = L.divIcon({
-                html: `<div style="background-color: blue; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white;">${count}</div>`,
-                className: '' // Rimuovi eventuali classi predefinite di Leaflet
+                html: `<div 
+                      style="background-color: blue; 
+                      width: 30px; 
+                      height: 30px; 
+                      border-radius: 50%; 
+                      display: flex; 
+                      justify-content: center; 
+                      align-items: center; 
+                      color: white;
+                      box-shadow: .5rem .5rem 1rem rgba(0, 0, 0, 1);"
+                  >${feature.properties.personalita_associate_al_monumento.length}</div>`,
+                className: 'shadow' // Rimuovi eventuali classi predefinite di Leaflet
             });
 
             return L.marker(latlng, { icon: countIcon });
         }}
-        geoField="coordinate"
       />
-  </MapComp>
+  </MapLeaflet>
 </div>

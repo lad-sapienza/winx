@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Link, withPrefix } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
-import styled from "styled-components"
-import { Container } from "react-bootstrap"
+import * as React from "react";
+import { Link, withPrefix } from "gatsby";
+import { StaticImage } from "gatsby-plugin-image";
+import styled from "styled-components";
+import { Container } from "react-bootstrap";
 
 const HeaderSection = ({ siteTitle }) => (
   <Header>
@@ -10,7 +10,7 @@ const HeaderSection = ({ siteTitle }) => (
       <div className="d-sm-flex align-items-center text-center">
         <Link to={withPrefix("/")}>
           <StaticImage
-            src="../images/scms-lad.png"
+            src="../images/winx ufficiale.png"
             width={150}
             quality={80}
             formats={["AUTO", "WEBP"]}
@@ -19,27 +19,31 @@ const HeaderSection = ({ siteTitle }) => (
           />
         </Link>
         <div className="text-start ms-3">
-          <h1>s:CMS</h1>
-          <p className="lead">Static site Content Management System is developend and
-          maintained by LAD: Laboratorio di Archeologia Digitale alla Sapienza</p>
+          <h1>WinX</h1>
+          <p className="lead">Women in ConteXt</p>
         </div>
       </div>
     </Container>
   </Header>
-)
+);
 
 const Header = styled.header`
-  background-color: #fe04fc;
-  color: #ffffff;
+  background-color: #C2B280; /* Colore sabbia */
+  color: #000; /* Colore del testo per garantire contrasto e leggibilità */
   margin-bottom: 5rem;
 
   .gatsby-image-wrapper {
-    background-color: #ffffff;
+    background-color: #C2B280; /* Mantiene il colore sabbia coerente */
     img {
       padding-left: 1rem;
       padding-right: 1rem;
     }
   }
-`
 
-export default HeaderSection
+  h1,
+  p {
+    color: #000; /* Assicura che il testo sia leggibile sullo sfondo sabbia */
+  }
+`;
+
+export default HeaderSection;

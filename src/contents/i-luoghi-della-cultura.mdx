@@ -15,32 +15,32 @@ import { Link } from "gatsby"
       fullScreen={true}
     >
       <VectorLayer 
-    name="Sites"
-    dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse?fields=*,personalita_associate_al_monumento.*"
-    fitToContent={true}
-    checked={true}
-    popupTemplate={(attribs) => `
-        <p><strong>${attribs.nome}</strong></p>
-        <p>Provincia: ${attribs.provincia}</p>
-        <p>Persone associate: ${
-          attribs.personalita_associate_al_monumento.length > 0
-            ? attribs.personalita_associate_al_monumento.length
-            : "Nessuna"
-        }</p>
-    `}
-    pointToLayer={(feature, latlng) => {
-        // Ottieni il numero di persone associate
-        const count = feature.properties.personalita_associate_al_monumento.length;
+        name="Sites"
+        dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse?fields=*,personalita_associate_al_monumento.*"
+        fitToContent={true}
+        checked={true}
+        popupTemplate={(attribs) => `
+            <p><strong>${attribs.nome}</strong></p>
+            <p>Provincia: ${attribs.provincia}</p>
+            <p>Persone associate: ${
+              attribs.personalita_associate_al_monumento.length > 0
+                ? attribs.personalita_associate_al_monumento.length
+                : "Nessuna"
+            }</p>
+        `}
+        pointToLayer={(feature, latlng) => {
+            // Ottieni il numero di persone associate
+            const count = feature.properties.personalita_associate_al_monumento.length;
 
-        // Crea un marker personalizzato con un cerchio e il numero
-        const countIcon = L.divIcon({
-            html: `<div style="background-color: blue; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white;">${count}</div>`,
-            className: '' // Rimuovi eventuali classi predefinite di Leaflet
-        });
+            // Crea un marker personalizzato con un cerchio e il numero
+            const countIcon = L.divIcon({
+                html: `<div style="background-color: blue; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white;">${count}</div>`,
+                className: '' // Rimuovi eventuali classi predefinite di Leaflet
+            });
 
-        return L.marker(latlng, { icon: countIcon });
-    }}
-    geoField="coordinate"
-/>
+            return L.marker(latlng, { icon: countIcon });
+        }}
+        geoField="coordinate"
+      />
   </MapComp>
 </div>

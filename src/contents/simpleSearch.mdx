@@ -1,50 +1,27 @@
 ---
-title: "Search component"
+title: "Advanced Search Component"
 date: "2023-10-01"
-slug: "simple-search"
+slug: "advanced-search"
 description: ""
-menu_position: 2
 ---
 
 import Search from "../modules/search.js"
-import { Link } from "gatsby"
-
-
 
 <div className="row">
-  <div className="col-sm-4">
-  A map with geogata sourced from a geojson file hosted in the same server: only a (public) local path is needed:
-```html
-<Search
-  dEndPoint="https://inrome.sns.it/db/items/cms_articles"
-  dToken="I0pT7ozY0KuK8i-vtwLQGek36s0IhQ5e"
-  searchFields="title_it,summary,text"
-  resultItemTemplate = { item => {
-    return  <div className="card my-3" key={item.id}>
-      <div className="card-body">
-        <h5 className="card-title">{item.title}</h5>
-        <p className="card-text">{item.summary}.</p>
-        <a href={`../record/?dEndPoint=${encodeURIComponent(`https://inrome.sns.it/db/items/cms_articles`)}&tb=cms_articles&token=I0pT7ozY0KuK8i-vtwLQGek36s0IhQ5e&id=${item.id}`} className="btn btn-primary">View</a>
-      </div>
-    </div>
-  }}
-/>
-```
-  </div>
   <div className="col-sm-8">
-  <Search
-  dEndPoint="https://inrome.sns.it/db/items/cms_articles"
-  dToken="I0pT7ozY0KuK8i-vtwLQGek36s0IhQ5e"
-  searchFields="title_it,summary,text"
-  resultItemTemplate = { item => {
-    return  <div className="card my-3" key={item.id}>
-      <div className="card-body">
-        <h5 className="card-title">{item.title}</h5>
-        <p className="card-text">{item.summary}.</p>
-        <a href={`../record/?dEndPoint=${encodeURIComponent(`https://inrome.sns.it/db/items/cms_articles`)}&tb=cms_articles&token=I0pT7ozY0KuK8i-vtwLQGek36s0IhQ5e&id=${item.id}`} className="btn btn-primary">View</a>
-      </div>
-    </div>
-  }}
-/>
+    <Search
+      dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse"
+      dToken="bdQC-yRoiG5KA04L8Op7DF8Jl9kzZ2t7"
+       searchFields={{ field1: "provincia", field2: "nome" }}
+      resultItemTemplate = { item => {
+        return <div className="card my-3" key={item.id}>
+          <div className="card-body">
+            <h5 className="card-title">{item.nome}</h5>
+            <p className="card-text">{item.provincia}.</p>
+            <a href={`../record/?tb=w_luogo_di_interesse&dEndPoint=${encodeURIComponent(`https://db.lad-sapienza.it/db/items/w_luogo_di_interesse`)}&token=bdQC-yRoiG5KA04L8Op7DF8Jl9kzZ2t7&id=${item.id}`} className="btn btn-primary">View</a>
+          </div>
+        </div>
+      }}
+    />
   </div>
 </div>

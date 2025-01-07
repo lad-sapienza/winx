@@ -23,31 +23,15 @@ const FooterSection = () => {
           </div>
           <div className="p-3 border-start border-primary">
             <p className="p-s-3">
-              <strong>Winx</strong> è un progetto ideato e sviluppato da{" "}
-              <br />
+              <strong>Winx</strong> è un progetto sviluppato dal{" "}
               <a
                 href="https://lad.saras.uniroma1.it"
                 target="_blank"
                 rel="noreferrer"
               >
-                LAD
-              </a>
-              <br />
-              <a
-                href="https://github.com/lab-archeologia-digitale/gatsby-directus-ui"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Code
-              </a>
-              &nbsp;|&nbsp;
-              <a
-                href="https://github.com/lab-archeologia-digitale/gatsby-directus-ui/issues"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Issues
-              </a>
+                LAD: Laboratorio di Archeologia Digitale alla Sapienza
+              </a> {" "}
+              con il CMS open source <a href="https://github.com/lad-sapienza/scms" target="_blank" rel="noreferrer">s:CMS</a>.
             </p>
           </div>
         </div>

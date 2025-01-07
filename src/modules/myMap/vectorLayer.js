@@ -1,23 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { GeoJSON, LayersControl, useMap , Search} from "react-leaflet";
+import { GeoJSON, LayersControl, useMap } from "react-leaflet";
 import L from "leaflet"; // Import Leaflet for icon creation
 import * as bbox from "geojson-bbox";
 import getData from "../../services/getData"
-
-const countOccurrences = (data) => {
-  const countMap = {};
-
-  data.forEach(item => {
-    const luogoId = item.id_luogo;
-    if (countMap[luogoId]) {
-      countMap[luogoId]++;
-    } else {
-      countMap[luogoId] = 1;
-    }
-  });
-
-  return countMap;
-};
 
 const VectorLayer = ({
   path2geojson,

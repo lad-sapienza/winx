@@ -1,31 +1,46 @@
 ---
-title: "MapComp component"
-date: "2023-10-01"
-slug: "modulo-mappa"
-description: "An easy to use component for building powerful and fully customizable maps"
+title: "I luoghi della cultura"
+date: "2024-04-10"
+slug: "pianta-dei-siti"
+description: "Siti archeologici noti dalle fonti"
 menu_position: 1
 ---
 
-
-# MapComp: Map Component
-
 import { MapComp, RasterLayer, VectorLayer } from "../modules/myMap/myMap.js"
+import { Link } from "gatsby"
 
-<div className="row">
-  <div className="col-sm-12">
-  <MapComp
-  height="600px"
-  baseLayers="OSM,EsriSatellite">
-    <VectorLayer 
-      name="Luogo di interesse"
-      fitToContent={true}
-      checked={true}
-      dTable="w_luogo_di_interesse"
-      popupTemplate={
-        (attribs) => { return `<p><strong>${attribs.tipologia}</strong></p>`; }
-      }
-      geoField="coordinate"
-    />
+<div>
+    <MapComp
+      baseLayers="OSM,EsriSatellite"
+      fullScreen={true}
+    >
+      <VectorLayer 
+    name="Sites"
+    dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse?fields=*,personalita_associate_al_monumento.*"
+    fitToContent={true}
+    checked={true}
+    popupTemplate={(attribs) => `
+        <p><strong>${attribs.nome}</strong></p>
+        <p>Provincia: ${attribs.provincia}</p>
+        <p>Persone associate: ${
+          attribs.personalita_associate_al_monumento.length > 0
+            ? attribs.personalita_associate_al_monumento.length
+            : "Nessuna"
+        }</p>
+    `}
+    pointToLayer={(feature, latlng) => {
+        // Ottieni il numero di persone associate
+        const count = feature.properties.personalita_associate_al_monumento.length;
+
+        // Crea un marker personalizzato con un cerchio e il numero
+        const countIcon = L.divIcon({
+            html: `<div style="background-color: blue; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white;">${count}</div>`,
+            className: '' // Rimuovi eventuali classi predefinite di Leaflet
+        });
+
+        return L.marker(latlng, { icon: countIcon });
+    }}
+    geoField="coordinate"
+/>
   </MapComp>
-  </div>
 </div>

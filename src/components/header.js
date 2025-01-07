@@ -7,11 +7,11 @@ import { Container } from "react-bootstrap";
 const HeaderSection = ({ siteTitle }) => (
   <Header>
     <Container>
-      <div className="d-sm-flex align-items-center text-center">
+      <div className="d-sm-flex align-items-center text-center p-1">
         <Link to={withPrefix("/")}>
           <StaticImage
-            src="../images/winx ufficiale.png"
-            width={150}
+            src="../images/winx-logo.png"
+            width={250}
             quality={80}
             formats={["AUTO", "WEBP"]}
             alt={siteTitle}

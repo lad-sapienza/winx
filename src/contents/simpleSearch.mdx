@@ -10,8 +10,6 @@ import Search from "../modules/search.js"
 <div className="row">
   <div className="col-sm-8">
     <Search
-      dEndPoint="https://db.lad-sapienza.it/curry/items/w_luogo_di_interesse"
-      dToken="bdQC-yRoiG5KA04L8Op7DF8Jl9kzZ2t7"
        searchFields={{ field1: "provincia", field2: "nome" }}
       resultItemTemplate = { item => {
         return <div className="card my-3" key={item.id}>

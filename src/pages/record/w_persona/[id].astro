@@ -1,0 +1,68 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import FieldGrid from "@components/FieldGrid.astro";
+import { getPersone, luoghiDiPersona, formatYear, lifespan, type Persona } from "@lib/data";
+import { withBase } from "@lib/paths";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return getPersone().map((p) => ({ params: { id: String(p.id) }, props: { persona: p } }));
+}
+
+interface Props {
+  persona: Persona;
+}
+
+const { persona } = Astro.props;
+const luoghi = luoghiDiPersona(persona.id);
+
+const fieldDefs: [string, string | number | null][] = [
+  ["Soprannome", persona.soprannome],
+  ["Famiglia / gens", persona.famiglia_gens],
+  ["Genere", persona.genere],
+  ["Provenienza", persona.provenienza],
+  ["Anno di nascita", persona.anno_nascita !== null ? formatYear(persona.anno_nascita) : null],
+  ["Anno di morte", persona.anno_morte !== null ? formatYear(persona.anno_morte) : null],
+  ["Qualifica", persona.qualifica],
+];
+const fields = fieldDefs
+  .filter((f): f is [string, string | number] => f[1] !== null && f[1] !== "")
+  .map(([label, value]) => ({ label, value }));
+---
+
+<BaseLayout title={persona.nome} description={`Scheda di ${persona.nome}`} showHeaderTitles={false}>
+  <p class="mb-2">
+    <a href={withBase("/le-donne")}>&larr; Le donne</a>
+  </p>
+  <p class="text-uppercase small text-secondary mb-1">Donna</p>
+  <h2 class="mb-1">{persona.nome}</h2>
+  <p class="text-secondary">Vissuta tra {lifespan(persona.anno_nascita, persona.anno_morte)}</p>
+
+  <FieldGrid fields={fields} />
+
+  {
+    persona.note && (
+      <section class="mt-4">
+        <h3 class="h5">Note</h3>
+        <p class="winx-note">{persona.note}</p>
+      </section>
+    )
+  }
+
+  {
+    luoghi.length > 0 && (
+      <section class="mt-4">
+        <h3 class="h5">Luoghi associati</h3>
+        <ul>
+          {luoghi.map((l) => (
+            <li>
+              <a href={withBase(`/record/w_luogo_di_interesse/${l.id}/`)}>{l.nome}</a>
+              {l.provincia ? ` (${l.provincia})` : ""}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

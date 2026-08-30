@@ -1,0 +1,39 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LuoghiMap, { type LuoghiFeatureCollection } from "@components/LuoghiMap";
+import { getLuoghi, getRelazioni } from "@lib/data";
+import { withBase } from "@lib/paths";
+
+export const prerender = true;
+
+const relazioni = getRelazioni();
+const nPersone = (luogoId: number) =>
+  new Set(relazioni.filter((r) => r.luogoId === luogoId).map((r) => r.personaId)).size;
+
+const featureCollection: LuoghiFeatureCollection = {
+  type: "FeatureCollection",
+  features: getLuoghi()
+    .filter((l) => l.lng !== null && l.lat !== null)
+    .map((l) => ({
+      type: "Feature",
+      id: l.id,
+      geometry: { type: "Point", coordinates: [l.lng as number, l.lat as number] },
+      properties: {
+        id: l.id,
+        nome: l.nome,
+        tipologia: l.tipologia ?? l.tipo_di_monumento ?? "—",
+        provincia: l.provincia ?? "—",
+        n_persone: nPersone(l.id),
+        record_url: withBase(`/record/w_luogo_di_interesse/${l.id}/`),
+      },
+    })),
+};
+---
+
+<BaseLayout
+  title="I luoghi della cultura"
+  description="Siti archeologici e città note dalle fonti, mappati per provincia dell'Impero romano d'Oriente."
+>
+  <h2 class="mb-4">I luoghi della cultura</h2>
+  <LuoghiMap client:only="react" data={featureCollection} />
+</BaseLayout>

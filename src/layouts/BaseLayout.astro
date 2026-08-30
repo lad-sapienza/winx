@@ -1,0 +1,110 @@
+---
+import "../styles/global.css";
+import SEO from "@lad-sapienza/scms-core/components/SEO/SEO.astro";
+import BSNavbar from "@lad-sapienza/scms-core/components/BSNavbar";
+import { getEntry } from "astro:content";
+import { siteMetadata } from "../user.config.mjs";
+import { withBase, menuWithBase } from "@lib/paths";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set on interior pages so <h1> lives in the page, not the header band. */
+  showHeaderTitles?: boolean;
+}
+
+const {
+  title = siteMetadata.title,
+  description = siteMetadata.description,
+  showHeaderTitles = true,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const menuEntry = await getEntry("menu", "menu");
+const menuItems = menuWithBase(menuEntry?.data ?? []);
+---
+
+<!doctype html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <SEO title={title} description={description} siteMetadata={siteMetadata} />
+    <link rel="icon" type="image/png" href={withBase("/images/favicon.png")} />
+    <slot name="head" />
+    <!--
+      WinX is a light-only site (sand-and-black identity). s:CMS injects an
+      anti-FOUC theme script that would otherwise switch <html data-bs-theme>
+      to "dark" from the visitor's OS preference; this pins it back to light.
+    -->
+    <script is:inline>
+      document.documentElement.setAttribute("data-bs-theme", "light");
+    </script>
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <BSNavbar
+      client:load
+      menuItems={menuItems}
+      currentPath={currentPath}
+      cssClasses={{
+        nav: "bg-body-tertiary navbar-expand-md sticky-top shadow-sm border-bottom",
+        ul: "ms-auto mb-2 mb-md-0",
+        li: "text-center fw-medium",
+      }}
+      brand={{ text: "WinX", link: withBase("/"), cssClasses: "fw-bold" }}
+    />
+
+    <header class="winx-header">
+      <div class="container py-3">
+        <div class="d-sm-flex align-items-center text-center text-sm-start gap-3">
+          <a href={withBase("/")}>
+            <img
+              src={withBase("/images/winx-logo.png")}
+              alt="WinX — Women in Intellectual conteXts"
+              class="winx-logo my-2"
+            />
+          </a>
+          {showHeaderTitles && (
+            <div>
+              <h1 class="h2">WinX</h1>
+              <p class="lead">Women in ConteXt</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <main class="container flex-grow-1" style="padding-bottom: 3rem;">
+      <slot />
+    </main>
+
+    <footer class="winx-footer mt-auto">
+      <div class="container">
+        <div class="d-flex flex-row align-items-center gap-3 flex-wrap">
+          <a href="https://lad.saras.uniroma1.it" target="_blank" rel="noreferrer">
+            <img
+              src={withBase("/images/scms-lad.png")}
+              width="100"
+              alt="LAD: Laboratorio di Archeologia Digitale alla Sapienza"
+              class="img-fluid"
+            />
+          </a>
+          <p class="mb-0 ps-3 border-start border-2 border-dark">
+            <strong>WinX</strong> è un progetto sviluppato dal{" "}
+            <a href="https://lad.saras.uniroma1.it" target="_blank" rel="noreferrer">
+              LAD: Laboratorio di Archeologia Digitale alla Sapienza
+            </a>{" "}
+            con il CMS open source{" "}
+            <a href="https://github.com/lad-sapienza/sCMS" target="_blank" rel="noreferrer">s:CMS</a>.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+      is:inline></script>
+  </body>
+</html>

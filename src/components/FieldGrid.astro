@@ -1,0 +1,22 @@
+---
+interface Props {
+  fields: { label: string; value: string | number }[];
+}
+
+const { fields } = Astro.props;
+---
+
+{
+  fields.length > 0 && (
+    <dl class="row g-3 mb-0">
+      {fields.map((f) => (
+        <div class="col-12 col-md-6">
+          <div class="border rounded p-3 h-100">
+            <dt class="small fw-semibold text-secondary mb-1">{f.label}</dt>
+            <dd class="mb-0">{f.value}</dd>
+          </div>
+        </div>
+      ))}
+    </dl>
+  )
+}

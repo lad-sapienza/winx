@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import FieldGrid from "@components/FieldGrid.astro";
+import { getLuoghi, personeDiLuogo, formatYear, lifespan, type Luogo } from "@lib/data";
+import { withBase } from "@lib/paths";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return getLuoghi().map((l) => ({ params: { id: String(l.id) }, props: { luogo: l } }));
+}
+
+interface Props {
+  luogo: Luogo;
+}
+
+const { luogo } = Astro.props;
+const persone = personeDiLuogo(luogo.id);
+
+const fieldDefs: [string, string | number | null][] = [
+  ["Tipologia", luogo.tipologia],
+  ["Tipo di monumento", luogo.tipo_di_monumento],
+  ["Città di appartenenza", luogo.citta_di_appartenenza],
+  ["Provincia", luogo.provincia],
+  ["Periodo", luogo.periodo],
+  ["Anno di inizio", luogo.anno_inizio !== null ? formatYear(luogo.anno_inizio) : null],
+  ["Anno di fine uso", luogo.anno_fine_uso !== null ? formatYear(luogo.anno_fine_uso) : null],
+  [
+    "Coordinate (lat, lng)",
+    luogo.lat !== null && luogo.lng !== null ? `${luogo.lat.toFixed(5)}, ${luogo.lng.toFixed(5)}` : null,
+  ],
+];
+const fields = fieldDefs
+  .filter((f): f is [string, string | number] => f[1] !== null && f[1] !== "")
+  .map(([label, value]) => ({ label, value }));
+---
+
+<BaseLayout title={luogo.nome} description={`Scheda del luogo ${luogo.nome}`} showHeaderTitles={false}>
+  <p class="mb-2">
+    <a href={withBase("/i-luoghi-della-cultura")}>&larr; I luoghi della cultura</a>
+  </p>
+  <p class="text-uppercase small text-secondary mb-1">Luogo di interesse</p>
+  <h2 class="mb-1">{luogo.nome}</h2>
+  {
+    (luogo.tipologia || luogo.provincia) && (
+      <p class="text-secondary">
+        {[luogo.tipologia, luogo.provincia].filter(Boolean).join(" · ")}
+      </p>
+    )
+  }
+
+  <FieldGrid fields={fields} />
+
+  {
+    luogo.note && (
+      <section class="mt-4">
+        <h3 class="h5">Note</h3>
+        <p class="winx-note">{luogo.note}</p>
+      </section>
+    )
+  }
+
+  {
+    persone.length > 0 && (
+      <section class="mt-4">
+        <h3 class="h5">Donne associate</h3>
+        <ul>
+          {persone.map((p) => (
+            <li>
+              <a href={withBase(`/record/w_persona/${p.id}/`)}>{p.nome}</a>
+              {" — "}
+              {lifespan(p.anno_nascita, p.anno_morte)}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

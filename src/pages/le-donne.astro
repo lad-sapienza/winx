@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DonneTable, { type DonnaRow } from "@components/DonneTable";
+import { getPersone, lifespan } from "@lib/data";
+
+export const prerender = true;
+
+const rows: DonnaRow[] = getPersone().map((p) => ({
+  id: p.id,
+  nome: p.nome,
+  famiglia_gens: p.famiglia_gens,
+  provenienza: p.provenienza,
+  vissuta: lifespan(p.anno_nascita, p.anno_morte),
+}));
+---
+
+<BaseLayout
+  title="Le donne"
+  description="Le donne attestate nei luoghi della cultura del mondo ellenofono di età romana."
+>
+  <h2 class="mb-4">Le donne</h2>
+  <DonneTable client:load data={rows} />
+</BaseLayout>

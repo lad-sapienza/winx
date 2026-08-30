@@ -5,7 +5,8 @@ eastern Roman Empire. A research project by Ada Caruso.
 
 Built with [s:CMS](https://github.com/lad-sapienza/sCMS) on top of
 [Astro](https://astro.build). The framework layer is the
-[`@lad-sapienza/scms-core`](https://github.com/lad-sapienza/scms-core) npm package.
+[`@lad-sapienza/scms-core`](https://github.com/lad-sapienza/scms-core) npm
+package, pinned at **`0.1.0-alpha.9`** (see [`package.json`](package.json)).
 
 ## Data
 

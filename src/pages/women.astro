@@ -15,9 +15,9 @@ const rows: DonnaRow[] = getPersone().map((p) => ({
 ---
 
 <BaseLayout
-  title="Le donne"
-  description="Le donne attestate nei luoghi della cultura del mondo ellenofono di età romana."
+  title="Women"
+  description="The women attested in the cultural venues of the Greek-speaking world in the Roman period."
 >
-  <h2 class="mb-4">Le donne</h2>
+  <h2 class="mb-4">Women</h2>
   <DonneTable client:load data={rows} />
 </BaseLayout>

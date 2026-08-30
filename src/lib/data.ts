@@ -80,7 +80,7 @@ export function getPersone(): Persona[] {
     .filter((r) => num(r.id) !== null)
     .map((r) => ({
       id: num(r.id)!,
-      nome: str(r.nome) ?? `Persona ${num(r.id)}`,
+      nome: str(r.nome) ?? `Person ${num(r.id)}`,
       soprannome: str(r.soprannome),
       famiglia_gens: str(r.famiglia_gens),
       genere: str(r.genere),
@@ -90,7 +90,7 @@ export function getPersone(): Persona[] {
       note: str(r.note),
       qualifica: str(r.qualifica),
     }))
-    .sort((a, b) => a.nome.localeCompare(b.nome, 'it'));
+    .sort((a, b) => a.nome.localeCompare(b.nome, 'en'));
 }
 
 export function getPersona(id: number | string): Persona | undefined {
@@ -139,7 +139,7 @@ export function getLuoghi(): Luogo[] {
       const [lng, lat] = parseCoords(r['coordinate.coordinates']);
       return {
         id: num(r.id)!,
-        nome: str(r.nome) ?? `Luogo ${num(r.id)}`,
+        nome: str(r.nome) ?? `Place ${num(r.id)}`,
         tipologia: str(r.tipologia),
         tipo_di_monumento: str(r.tipo_di_monumento),
         citta_di_appartenenza: str(r.citta_di_appartenenza),
@@ -152,7 +152,7 @@ export function getLuoghi(): Luogo[] {
         lat,
       };
     })
-    .sort((a, b) => a.nome.localeCompare(b.nome, 'it'));
+    .sort((a, b) => a.nome.localeCompare(b.nome, 'en'));
 }
 
 export function getLuogo(id: number | string): Luogo | undefined {
@@ -199,13 +199,13 @@ export function personeDiLuogo(luogoId: number): Persona[] {
 
 // ─── Formatting helpers ─────────────────────────────────────────────────────
 
-/** -100 -> "100 a.C."  ·  230 -> "230 d.C."  ·  null -> "?" */
+/** -100 -> "100 BC"  ·  230 -> "AD 230"  ·  null -> "?" */
 export function formatYear(year: number | null): string {
   if (year === null) return '?';
-  return year < 0 ? `${-year} a.C.` : `${year} d.C.`;
+  return year < 0 ? `${-year} BC` : `AD ${year}`;
 }
 
-/** "100 a.C. — 230 d.C." (both unknown -> "—") */
+/** "100 BC — AD 230" (both unknown -> "—") */
 export function lifespan(birth: number | null, death: number | null): string {
   if (birth === null && death === null) return '—';
   return `${formatYear(birth)} — ${formatYear(death)}`;

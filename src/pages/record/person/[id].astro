@@ -18,33 +18,33 @@ const { persona } = Astro.props;
 const luoghi = luoghiDiPersona(persona.id);
 
 const fieldDefs: [string, string | number | null][] = [
-  ["Soprannome", persona.soprannome],
-  ["Famiglia / gens", persona.famiglia_gens],
-  ["Genere", persona.genere],
-  ["Provenienza", persona.provenienza],
-  ["Anno di nascita", persona.anno_nascita !== null ? formatYear(persona.anno_nascita) : null],
-  ["Anno di morte", persona.anno_morte !== null ? formatYear(persona.anno_morte) : null],
-  ["Qualifica", persona.qualifica],
+  ["Byname", persona.soprannome],
+  ["Family / gens", persona.famiglia_gens],
+  ["Gender", persona.genere],
+  ["Origin", persona.provenienza],
+  ["Year of birth", persona.anno_nascita !== null ? formatYear(persona.anno_nascita) : null],
+  ["Year of death", persona.anno_morte !== null ? formatYear(persona.anno_morte) : null],
+  ["Role", persona.qualifica],
 ];
 const fields = fieldDefs
   .filter((f): f is [string, string | number] => f[1] !== null && f[1] !== "")
   .map(([label, value]) => ({ label, value }));
 ---
 
-<BaseLayout title={persona.nome} description={`Scheda di ${persona.nome}`} showHeaderTitles={false}>
+<BaseLayout title={persona.nome} description={`Record of ${persona.nome}`} showHeaderTitles={false}>
   <p class="mb-2">
-    <a href={withBase("/le-donne")}>&larr; Le donne</a>
+    <a href={withBase("/women")}>&larr; Women</a>
   </p>
-  <p class="text-uppercase small text-secondary mb-1">Donna</p>
+  <p class="text-uppercase small text-secondary mb-1">Woman</p>
   <h2 class="mb-1">{persona.nome}</h2>
-  <p class="text-secondary">Vissuta tra {lifespan(persona.anno_nascita, persona.anno_morte)}</p>
+  <p class="text-secondary">Lived {lifespan(persona.anno_nascita, persona.anno_morte)}</p>
 
   <FieldGrid fields={fields} />
 
   {
     persona.note && (
       <section class="mt-4">
-        <h3 class="h5">Note</h3>
+        <h3 class="h5">Notes</h3>
         <p class="winx-note">{persona.note}</p>
       </section>
     )
@@ -53,11 +53,11 @@ const fields = fieldDefs
   {
     luoghi.length > 0 && (
       <section class="mt-4">
-        <h3 class="h5">Luoghi associati</h3>
+        <h3 class="h5">Associated places</h3>
         <ul>
           {luoghi.map((l) => (
             <li>
-              <a href={withBase(`/record/w_luogo_di_interesse/${l.id}/`)}>{l.nome}</a>
+              <a href={withBase(`/record/place/${l.id}/`)}>{l.nome}</a>
               {l.provincia ? ` (${l.provincia})` : ""}
             </li>
           ))}

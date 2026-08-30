@@ -14,14 +14,14 @@ export interface DonnaRow {
 const columns: ColumnConfig[] = [
   {
     key: "nome",
-    header: "Nome",
+    header: "Name",
     render: (value, row) => (
-      <a href={withBase(`/record/w_persona/${(row as DonnaRow).id}/`)}>{value ?? "—"}</a>
+      <a href={withBase(`/record/person/${(row as DonnaRow).id}/`)}>{value ?? "—"}</a>
     ),
   },
-  { key: "famiglia_gens", header: "Famiglia di appartenenza" },
-  { key: "provenienza", header: "Provenienza" },
-  { key: "vissuta", header: "Vissuta tra", sortable: false },
+  { key: "famiglia_gens", header: "Family" },
+  { key: "provenienza", header: "Origin" },
+  { key: "vissuta", header: "Lifespan", sortable: false },
 ];
 
 export default function DonneTable({ data }: { data: DonnaRow[] }) {
@@ -31,8 +31,8 @@ export default function DonneTable({ data }: { data: DonnaRow[] }) {
       columns={columns}
       searchable
       pagination={false}
-      emptyMessage="Nessuna donna registrata."
-      loadingMessage="Caricamento…"
+      emptyMessage="No women recorded."
+      loadingMessage="Loading…"
     />
   );
 }

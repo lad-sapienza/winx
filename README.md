@@ -22,13 +22,15 @@ CSV files under [`src/data/`](src/data/) and are read at build time by
 
 To update the site's content, replace these files with fresh exports and rebuild.
 
+The site is English-only.
+
 ## Pages
 
 - `/` — project presentation
-- `/i-luoghi-della-cultura` — interactive map of the places (MapLibre)
-- `/le-donne` — sortable/searchable table of the women
-- `/record/w_persona/<id>` and `/record/w_luogo_di_interesse/<id>` — per-record
-  detail pages, generated at build time from the CSVs
+- `/venues` — interactive map of the places (MapLibre)
+- `/women` — sortable/searchable table of the women
+- `/record/person/<id>` and `/record/place/<id>` — per-record detail pages,
+  generated at build time from the CSVs
 
 ## Commands
 

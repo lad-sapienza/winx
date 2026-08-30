@@ -18,15 +18,15 @@ const { luogo } = Astro.props;
 const persone = personeDiLuogo(luogo.id);
 
 const fieldDefs: [string, string | number | null][] = [
-  ["Tipologia", luogo.tipologia],
-  ["Tipo di monumento", luogo.tipo_di_monumento],
-  ["Città di appartenenza", luogo.citta_di_appartenenza],
-  ["Provincia", luogo.provincia],
-  ["Periodo", luogo.periodo],
-  ["Anno di inizio", luogo.anno_inizio !== null ? formatYear(luogo.anno_inizio) : null],
-  ["Anno di fine uso", luogo.anno_fine_uso !== null ? formatYear(luogo.anno_fine_uso) : null],
+  ["Type", luogo.tipologia],
+  ["Monument type", luogo.tipo_di_monumento],
+  ["City", luogo.citta_di_appartenenza],
+  ["Province", luogo.provincia],
+  ["Period", luogo.periodo],
+  ["Start year", luogo.anno_inizio !== null ? formatYear(luogo.anno_inizio) : null],
+  ["End-of-use year", luogo.anno_fine_uso !== null ? formatYear(luogo.anno_fine_uso) : null],
   [
-    "Coordinate (lat, lng)",
+    "Coordinates (lat, lng)",
     luogo.lat !== null && luogo.lng !== null ? `${luogo.lat.toFixed(5)}, ${luogo.lng.toFixed(5)}` : null,
   ],
 ];
@@ -35,11 +35,11 @@ const fields = fieldDefs
   .map(([label, value]) => ({ label, value }));
 ---
 
-<BaseLayout title={luogo.nome} description={`Scheda del luogo ${luogo.nome}`} showHeaderTitles={false}>
+<BaseLayout title={luogo.nome} description={`Place record — ${luogo.nome}`} showHeaderTitles={false}>
   <p class="mb-2">
-    <a href={withBase("/i-luoghi-della-cultura")}>&larr; I luoghi della cultura</a>
+    <a href={withBase("/venues")}>&larr; Cultural venues</a>
   </p>
-  <p class="text-uppercase small text-secondary mb-1">Luogo di interesse</p>
+  <p class="text-uppercase small text-secondary mb-1">Place of interest</p>
   <h2 class="mb-1">{luogo.nome}</h2>
   {
     (luogo.tipologia || luogo.provincia) && (
@@ -54,7 +54,7 @@ const fields = fieldDefs
   {
     luogo.note && (
       <section class="mt-4">
-        <h3 class="h5">Note</h3>
+        <h3 class="h5">Notes</h3>
         <p class="winx-note">{luogo.note}</p>
       </section>
     )
@@ -63,11 +63,11 @@ const fields = fieldDefs
   {
     persone.length > 0 && (
       <section class="mt-4">
-        <h3 class="h5">Donne associate</h3>
+        <h3 class="h5">Associated women</h3>
         <ul>
           {persone.map((p) => (
             <li>
-              <a href={withBase(`/record/w_persona/${p.id}/`)}>{p.nome}</a>
+              <a href={withBase(`/record/person/${p.id}/`)}>{p.nome}</a>
               {" — "}
               {lifespan(p.anno_nascita, p.anno_morte)}
             </li>

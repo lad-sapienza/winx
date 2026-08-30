@@ -21,8 +21,8 @@ export interface LuoghiFeatureCollection {
 const popupTemplate = [
   '<strong>${nome}</strong>',
   '${tipologia} · ${provincia}',
-  'Donne associate: ${n_persone}',
-  '<a href="${record_url}">Scheda del luogo &rarr;</a>',
+  'Associated women: ${n_persone}',
+  '<a href="${record_url}">Place record &rarr;</a>',
 ].join("<br/>");
 
 export default function LuoghiMap({ data }: { data: LuoghiFeatureCollection }) {
@@ -36,7 +36,7 @@ export default function LuoghiMap({ data }: { data: LuoghiFeatureCollection }) {
       layerControl="top-right"
       overlayLayers={[
         {
-          name: "Luoghi di interesse",
+          name: "Places of interest",
           source: { type: "geojson", data },
           fitToContent: true,
           popupTemplate,

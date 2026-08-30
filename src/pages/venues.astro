@@ -24,16 +24,16 @@ const featureCollection: LuoghiFeatureCollection = {
         tipologia: l.tipologia ?? l.tipo_di_monumento ?? "—",
         provincia: l.provincia ?? "—",
         n_persone: nPersone(l.id),
-        record_url: withBase(`/record/w_luogo_di_interesse/${l.id}/`),
+        record_url: withBase(`/record/place/${l.id}/`),
       },
     })),
 };
 ---
 
 <BaseLayout
-  title="I luoghi della cultura"
-  description="Siti archeologici e città note dalle fonti, mappati per provincia dell'Impero romano d'Oriente."
+  title="Cultural venues"
+  description="Archaeological sites and cities known from the sources, mapped by province of the eastern Roman Empire."
 >
-  <h2 class="mb-4">I luoghi della cultura</h2>
+  <h2 class="mb-4">Cultural venues</h2>
   <LuoghiMap client:only="react" data={featureCollection} />
 </BaseLayout>
